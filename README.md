@@ -1,0 +1,2 @@
+# AiBetCore
+Predicting footbal outcomes
