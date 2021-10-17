@@ -3,7 +3,6 @@ import requests
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 from urllib.request import Request
-import xlrd
 import pandas as pd
 from tqdm import tqdm
 
