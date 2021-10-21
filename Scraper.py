@@ -36,7 +36,7 @@ file_csv = pd.read_csv('big_data.csv')
 for d in tqdm(file_csv.values):       
     link = d[4]
     season = d[5]
-    if int(season) >= 2016:
+    if int(season) >= 2020:
         url=link+"/analysis"
     
         try:
