@@ -9,7 +9,7 @@ from tqdm import tqdm
 
 
 class Scraper:
-    def __init__(self,url: str):
+    def __init__(self, url: str):
         self.url = url
         self.req = Request(url=self.url,headers={'user-agent': 'my-app/0.0.1'})
         self.resp = urlopen(self.req)
