@@ -30,7 +30,7 @@ class Databaser:
     def pull_from_db(self, db_name, engine=None):
         if engine==None:
             engine = self.engine
-        return pd.read_SQL(db_name, engine)
+        return pd.read_sql(db_name, engine)
 
     @classmethod
     def pass_credentials(cls, credentials_file: str='db_credentials.json') -> object:
@@ -47,6 +47,7 @@ def main(argv):
         print("usage: python Databaser.py <credentials_file>")
         print("--OR--")
         print("usage: python Databaser.py <ENDPOINT> <USER> <PASSWORD>")
+    
 
 if __name__ == "__main__":
    main(sys.argv[1:])
