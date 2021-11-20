@@ -16,21 +16,25 @@ class Scraper:
 
     def parse_data(self, url):
         error_log = []
+        attr_results = []
         try:
             self.req = Request(url=url,headers={'user-agent': 'my-app/0.0.1'})
             self.resp = urlopen(self.req)
             self.html = BeautifulSoup(self.resp, features="lxml")
         except:
             error_log.append(url)
+            self.req = Request(url='https://www.besoccer.com/',headers={'user-agent': 'my-app/0.0.1'})
+            self.resp = urlopen(self.req)
+            self.html = BeautifulSoup(self.resp, features="lxml")
         attr_results = []
         for i, attr_path in enumerate(self.attr_list):
-            result, error_log = self.scrape_attr(attr_path, self.attr_labels[i], error_log)
+            result, error_log = self.scrape_attr(attr_path, self.attr_labels[i], error_log) 
             attr_results.append(result)
         return attr_results, error_log
 
 
     def scrape_attr(self, attr_path, attr_label, error_log):
-        a = attr_path[0]
+        a = attr_path[0] 
         b = attr_path[1]
         attr = ''
         try:
@@ -51,6 +55,7 @@ class Soccer_Scraper(Scraper):
         self.Data['Link'].append(link)
         for i, attr in enumerate(self.attr_labels):
             self.Data[attr].append(attr_results[i])
+            
         self.Data['Error'].append(error)
 
     def parse_list(self, soccer_list):
