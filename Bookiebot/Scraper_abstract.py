@@ -13,17 +13,27 @@ class Scraper:
         self.url_list = url_list
         self.attr_labels = attr_labels
         self.attr_list = attr_list
+        self.headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
+       'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+       'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
+       'Accept-Encoding': 'none',
+       'Accept-Language': 'en-US,en;q=0.8',
+       'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+       'Connection': 'keep-alive'}
+
 
     def parse_data(self, url):
         error_log = []
         attr_results = []
         try:
-            self.req = Request(url=url,headers={'user-agent': 'my-app/0.0.1'})
+            #self.req = Request(url=url,headers={'user-agent': 'my-app/0.0.1'})
+            self.req = Request(url=url,headers=self.headers)
             self.resp = urlopen(self.req)
             self.html = BeautifulSoup(self.resp, features="lxml")
         except:
             error_log.append(url)
-            self.req = Request(url='https://www.besoccer.com/',headers={'user-agent': 'my-app/0.0.1'})
+            #self.req = Request(url='https://www.besoccer.com/',headers={'user-agent': 'my-app/0.0.1'})
+            self.req = Request(url='https://www.besoccer.com/',headers=self.headers)
             self.resp = urlopen(self.req)
             self.html = BeautifulSoup(self.resp, features="lxml")
         attr_results = []
@@ -58,8 +68,9 @@ class Soccer_Scraper(Scraper):
             
         self.Data['Error'].append(error)
 
-    def parse_list(self, soccer_list):
-        for url in soccer_list:
+    def parse_list(self, soccer_list, season_list):
+
+        for url in tqdm(soccer_list):
             attr_results, error_log = self.parse_data(url+"/analysis")
             self.appendData(url, attr_results, error_log)
 
