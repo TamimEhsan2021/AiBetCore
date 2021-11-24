@@ -6,8 +6,7 @@ import pandas as pd
 
 
 
-def scrape_data(dframe):
-    soccer_list = dframe["Link"]
+def scrape_data(soccer_list):
     attr_labels = ['Home_ELO', 'Away_ELO', 'Home_Win', 'Away_Win', 'Draw']
     attr_list = [['td', {'class':'team1-c'}],
                     ['td', {'class':'team2-c'}],
@@ -19,15 +18,20 @@ def scrape_data(dframe):
     scraper.parse_list(soccer_list)
     return scraper.Data
 
+
 def main(argv):
     db = Databaser.pass_credentials("db_credentials.json")
-    #df = pd.read_csv('../combined_clean.csv')
+    #df = pd.read_csv('../combined_clean_short.csv')
 
-    #db.push_to_db(df, 'master_input')
+    #db.push_to_db(df, 'master_input_short')
     dframe = db.pull_from_db('master_input')
-    scraped_data = scrape_data(dframe)
+    result = zip(dframe["Season"], dframe["Link"])
+    result_list = list(result)
+    season_list,url_list,  = result_list
+    for season in dframe["Season"]:
+        scraped_data = scrape_data(season)
     scrapa_frame = pd.DataFrame(scraped_data)
-    db.push_to_db(scrapa_frame, 'output1')
+    db.push_to_db(scrapa_frame, 'EOL_features')
 
 if __name__ == "__main__":
     main(sys.argv[1:])
